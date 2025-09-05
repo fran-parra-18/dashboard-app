@@ -1,5 +1,5 @@
 import { Box, useTheme } from "@mui/material";
-import { DataGrid} from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
@@ -71,17 +71,17 @@ const Contacts = () => {
             color: colors.greenAccent[300],
           },
 
-  "& .MuiDataGrid-columnHeaders": {
-    backgroundColor: colors.blueAccent[700],
-    borderBottom: "none",
-  },
-  "& .MuiDataGrid-columnHeader": {
-    backgroundColor: colors.blueAccent[700],
-  },
-  "& .MuiDataGrid-columnHeaderTitle": {
-    color: colors.grey[100],
-    fontWeight: "bold",
-  },
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: colors.blueAccent[700],
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-columnHeader": {
+            backgroundColor: colors.blueAccent[700],
+          },
+          "& .MuiDataGrid-columnHeaderTitle": {
+            color: colors.grey[100],
+            fontWeight: "bold",
+          },
 
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.primary[400],
