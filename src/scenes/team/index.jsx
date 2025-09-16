@@ -51,8 +51,8 @@ const Team = () => {
               access === "admin"
                 ? colors.greenAccent[600]
                 : access === "manager"
-                ? colors.greenAccent[700]
-                : colors.greenAccent[700]
+                  ? colors.greenAccent[700]
+                  : colors.greenAccent[700]
             }
             borderRadius="4px"
           >
@@ -81,11 +81,16 @@ const Team = () => {
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
           },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
+          "& .MuiDataGrid-row": {
+            border: "none",
+            "&:hover": {
+              backgroundColor: "#375973ff", // hover mientras está seleccionada
+            },
+            
           },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
+          
+          "& .MuiDataGrid-columnHeader": {
+            backgroundColor: `${colors.blueAccent[700]} !important`,
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -98,9 +103,19 @@ const Team = () => {
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
+          "& .MuiDataGrid-row.Mui-selected": {
+            backgroundColor: "#203b50ff", // fondo cuando se selecciona
+            "&:hover": {
+              backgroundColor: "#375973ff", // hover mientras está seleccionada
+            },
+          },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        <DataGrid
+          checkboxSelection
+          rows={mockDataTeam}
+          columns={columns}
+        />
       </Box>
     </Box>
   );

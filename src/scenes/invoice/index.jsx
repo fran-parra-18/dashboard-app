@@ -32,7 +32,7 @@ const Invoices = () => {
             headerName: "Cost",
             flex: 1,
             renderCell: (params) => (
-                <Typography color={colors.greenAccent[500]}>
+                <Typography >
                     ${params.row.cost}
                 </Typography>
             )
@@ -60,11 +60,9 @@ const Invoices = () => {
                     "& .MuiDataGrid-cell": {
                         borderBottom: "none",
                     },
-                    "& .name-column--cell": {
-                        color: colors.greenAccent[300],
-                    },
-                    "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: colors.blueAccent[700],
+                   
+                    "& .MuiDataGrid-columnHeader": {
+                        backgroundColor: `${colors.blueAccent[700]} !important`,
                         borderBottom: "none",
                     },
                     "& .MuiDataGrid-virtualScroller": {
@@ -74,9 +72,17 @@ const Invoices = () => {
                         borderTop: "none",
                         backgroundColor: colors.blueAccent[700],
                     },
-                    "& .muiCheckbox-root":{
-                        color: `${colors.greenAccent[200]} !important`
-                    }
+                    "& .MuiCheckbox-root": {
+                        color: `${colors.greenAccent[200]} !important`,
+                    },
+                    "& .MuiDataGrid-row.Mui-selected": {
+                        backgroundColor: "#203b50ff", // fondo cuando se selecciona
+                        "&:hover": {
+                            backgroundColor: "#375973ff", // hover mientras está seleccionada
+                        },
+                    },
+
+
                 }}
             >
                 <DataGrid

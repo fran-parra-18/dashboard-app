@@ -67,10 +67,6 @@ const Contacts = () => {
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
           },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: colors.blueAccent[700],
             borderBottom: "none",
@@ -95,6 +91,13 @@ const Contacts = () => {
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `${colors.grey[100]} !important`,
+          },
+
+          "& .MuiDataGrid-row.Mui-selected": {
+            backgroundColor: "#203b50ff", // fondo cuando se selecciona
+            "&:hover": {
+              backgroundColor: "#375973ff", // hover mientras está seleccionada
+            },
           },
         }}
       >
