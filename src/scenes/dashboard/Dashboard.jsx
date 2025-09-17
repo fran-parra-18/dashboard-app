@@ -53,7 +53,7 @@ const Dashboard = () => {
                         increase="+14%"
                         icon={
                             <EmailIcon
-                                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                                sx={{ color: colors.blueAccent[600], fontSize: "26px" }}
                             />
                         }
                     />
@@ -72,7 +72,7 @@ const Dashboard = () => {
                         increase="+21%"
                         icon={
                             <PointOfSaleIcon
-                                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                                sx={{ color: colors.blueAccent[600], fontSize: "26px" }}
                             />
                         }
                     />
@@ -91,7 +91,7 @@ const Dashboard = () => {
                         increase="+5%"
                         icon={
                             <PersonAddIcon
-                                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                                sx={{ color: colors.blueAccent[600], fontSize: "26px" }}
                             />
                         }
                     />
@@ -110,7 +110,7 @@ const Dashboard = () => {
                         increase="+43%"
                         icon={
                             <TrafficIcon
-                                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                                sx={{ color: colors.blueAccent[600], fontSize: "26px" }}
                             />
                         }
                     />
@@ -134,14 +134,14 @@ const Dashboard = () => {
                             <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
                                 Revenue Generated
                             </Typography>
-                            <Typography variant="h3" fontWeight="bold" color={colors.greenAccent[500]}>
+                            <Typography variant="h3" fontWeight="bold" color={colors.blueAccent[500]}>
                                 $59,342.32
                             </Typography>
                         </Box>
                         <Box>
                             <IconButton>
                                 <DownloadOutlinedIcon
-                                    sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
+                                    sx={{ fontSize: "26px", color: colors.blueAccent[500] }}
                                 />
                             </IconButton>
                         </Box>
@@ -178,7 +178,7 @@ const Dashboard = () => {
                             borderBottom={`4px solid ${colors.primary[500]}`}
                             p="15px">
                             <Box>
-                                <Typography color={colors.greenAccent[500]} variant="h5" fontWeight="600">
+                                <Typography color={colors.blueAccent[500]} variant="h5" fontWeight="600">
                                     {transaction.txId}
                                 </Typography>
                                 <Typography color={colors.grey[100]}>
@@ -186,7 +186,7 @@ const Dashboard = () => {
                                 </Typography>
                             </Box>
                             <Box color={colors.grey[100]}>{transaction.date}</Box>
-                            <Box backgroundColor={colors.greenAccent[500]} p="5px 10px" borderRadius="4px">
+                            <Box backgroundColor={colors.blueAccent[500]} p="5px 10px" borderRadius="4px">
                                 ${transaction.cost}
                             </Box>
                         </Box>
@@ -206,7 +206,7 @@ const Dashboard = () => {
                     </Typography>
                     <Box display="flex" flexDirection="column" alignItems="center" mt="25px">
                         <ProgressCircle size="125" />
-                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ mt: "15px" }}>
+                        <Typography variant="h5" color={colors.blueAccent[500]} sx={{ mt: "15px" }}>
                             $48,352 revenue generated
                         </Typography>
                         <Typography>

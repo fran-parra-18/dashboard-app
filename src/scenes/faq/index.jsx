@@ -16,7 +16,7 @@ const FAQ = () => {
 
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography color={colors.greenAccent[500]} variant="h5">
+                    <Typography color={colors.blueAccent[500]} variant="h5">
                         an important question
                     </Typography>
                 </AccordionSummary>
@@ -29,7 +29,7 @@ const FAQ = () => {
 
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography color={colors.greenAccent[500]} variant="h5">
+                    <Typography color={colors.blueAccent[500]} variant="h5">
                         an important question
                     </Typography>
                 </AccordionSummary>
@@ -42,7 +42,7 @@ const FAQ = () => {
 
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography color={colors.greenAccent[500]} variant="h5">
+                    <Typography color={colors.blueAccent[500]} variant="h5">
                         an important question
                     </Typography>
                 </AccordionSummary>
@@ -55,7 +55,7 @@ const FAQ = () => {
 
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography color={colors.greenAccent[500]} variant="h5">
+                    <Typography color={colors.blueAccent[500]} variant="h5">
                         an important question
                     </Typography>
                 </AccordionSummary>
@@ -68,7 +68,7 @@ const FAQ = () => {
 
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography color={colors.greenAccent[500]} variant="h5">
+                    <Typography color={colors.blueAccent[500]} variant="h5">
                         an important question
                     </Typography>
                 </AccordionSummary>

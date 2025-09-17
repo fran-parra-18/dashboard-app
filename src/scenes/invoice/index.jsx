@@ -73,7 +73,7 @@ const Invoices = () => {
                         backgroundColor: colors.blueAccent[700],
                     },
                     "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
+                        color: `${colors.blueAccent[200]} !important`,
                     },
                     "& .MuiDataGrid-row.Mui-selected": {
                         backgroundColor: "#203b50ff", // fondo cuando se selecciona

@@ -49,10 +49,10 @@ const Team = () => {
             justifyContent="center"
             backgroundColor={
               access === "admin"
-                ? colors.greenAccent[600]
+                ? colors.blueAccent[600]
                 : access === "manager"
-                  ? colors.greenAccent[700]
-                  : colors.greenAccent[700]
+                  ? colors.blueAccent[700]
+                  : colors.blueAccent[700]
             }
             borderRadius="4px"
           >
@@ -81,16 +81,9 @@ const Team = () => {
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
           },
-          "& .MuiDataGrid-row": {
-            border: "none",
-            "&:hover": {
-              backgroundColor: "#375973ff", // hover mientras está seleccionada
-            },
-            
-          },
-          
+                    
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: `${colors.blueAccent[700]} !important`,
+            backgroundColor: `${colors.redAccent[700]} !important`,
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -98,15 +91,15 @@ const Team = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.redAccent[700],
           },
           "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
+            color: `${colors.blueAccent[200]} !important`,
           },
           "& .MuiDataGrid-row.Mui-selected": {
-            backgroundColor: "#203b50ff", // fondo cuando se selecciona
+            backgroundColor: colors.grey[500], // fondo cuando se selecciona
             "&:hover": {
-              backgroundColor: "#375973ff", // hover mientras está seleccionada
+              backgroundColor: colors.grey[600], // hover mientras está seleccionada
             },
           },
         }}

@@ -56,11 +56,11 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
           height: "100%",
         },
         "& .ps-menuitem-root.ps-active": {
-          color: "#6870fa !important",
+          color: colors.redAccent[600],
         },
         "& .ps-menu-button:hover": {
           backgroundColor: "transparent !important",
-          color: "#868dfb !important",
+          color: colors.redAccent[500],
         },
       }}
     >
@@ -115,7 +115,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
                 >
                   Ed Roh
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                <Typography variant="h5" color={colors.blueAccent[500]}>
                   VP Fancy Admin
                 </Typography>
               </Box>
