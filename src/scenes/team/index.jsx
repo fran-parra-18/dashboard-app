@@ -41,9 +41,9 @@ const Team = () => {
       flex: 1,
       renderCell: ({ row: { access } }) => {
         return (
+          <Box height="100%" display="flex" alignItems="center" justifyContent="center">
           <Box
             width="60%"
-            m="0 auto"
             p="5px"
             display="flex"
             justifyContent="center"
@@ -63,6 +63,7 @@ const Team = () => {
               {access}
             </Typography>
           </Box>
+          </Box>
         );
       },
     },
@@ -81,26 +82,42 @@ const Team = () => {
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
           },
-                    
+          "& .MuiDataGrid-columnHeaderTitle": {
+            color: colors.grey[100],
+            fontWeight: "bold",
+          },
+
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: `${colors.redAccent[700]} !important`,
+            backgroundColor: `${colors.redAccent[600]} !important`,
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.primary[400],
           },
+
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.redAccent[700],
+            backgroundColor: colors.redAccent[600],
           },
           "& .MuiCheckbox-root": {
             color: `${colors.blueAccent[200]} !important`,
           },
-          "& .MuiDataGrid-row.Mui-selected": {
-            backgroundColor: colors.grey[500], // fondo cuando se selecciona
+          "& .MuiDataGrid-row:hover": {
             "&:hover": {
-              backgroundColor: colors.grey[600], // hover mientras está seleccionada
+              backgroundColor: colors.grey[500],
             },
+          },
+          "& .MuiDataGrid-row.Mui-selected": {
+            backgroundColor: colors.grey[600],
+          },
+          "& .MuiDataGrid-row": {
+            borderBottom: `1px solid ${colors.grey[100]}`,
+          },
+          "& .MuiDataGrid-cell:focus": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-cell:focus-within": {
+            outline: "none",
           },
         }}
       >

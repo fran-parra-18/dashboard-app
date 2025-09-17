@@ -1,7 +1,8 @@
-import { Box, Button, TextField, useMediaQuery } from "@mui/material";
+import { Box, Button, TextField, useMediaQuery, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Header from "../../components/Header";
+import { tokens } from "../../theme";
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -23,6 +24,9 @@ const userSchema = yup.object().shape({
 })
 
 const Form = () => {
+
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     const isNonMobile = useMediaQuery("(min.width:600px)");
 
@@ -120,7 +124,18 @@ const Form = () => {
                             />
                         </Box>
                         <Box display="flex" justifyContent="end" mt="20px">
-                            <Button type="submit" color="secondary" variant="contained">
+                            <Button
+                                type="submit"
+                                color="secondary"
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: colors.blueAccent[600], // el color que quieras
+                                    color: "#fff",
+                                    "&:hover": {
+                                        backgroundColor: colors.blueAccent[700], // color al pasar el mouse
+                                    },
+                                }}
+                            >
                                 Create new User
                             </Button>
                         </Box>
