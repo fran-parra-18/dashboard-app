@@ -72,5 +72,5 @@ const LineChart = ({ isDashboard = false }) => {
             />
     )
 }
-
+/* prueba*/
 export default LineChart;
