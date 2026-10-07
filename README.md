@@ -6,13 +6,14 @@ The project focuses on creating a reusable dashboard interface for displaying, f
 
 ## ✨ Features
 
-* 📊 Dashboard interface
-* 📋 Interactive data tables
-* 🔎 Data filtering
+* 📊 Dashboard with KPI stat boxes, recent transactions and embedded charts
+* 📋 Interactive data tables (team, contacts, invoices) with toolbar, filters and quick search
+* 📈 Bar, pie, line and geography (choropleth) charts built with Nivo
+* 📅 Interactive calendar to create and delete events (FullCalendar)
+* 📝 Profile form with validation (Formik + Yup)
+* ❓ FAQ page with accordions
+* 🌗 Light / dark mode toggle
 * 🧭 Collapsible sidebar navigation
-* 📱 Responsive layout
-* 🧩 Reusable React components
-* 🎨 Material UI components
 * ⚡ Fast development environment with Vite
 
 ## 🛠️ Tech Stack
@@ -21,9 +22,13 @@ The project focuses on creating a reusable dashboard interface for displaying, f
 * JavaScript
 * Material UI (MUI)
 * MUI Data Grid
+* React Router
 * React Pro Sidebar
+* Nivo (charts)
+* FullCalendar
+* Formik + Yup
 * Vite
-* CSS
+* Vercel (deployment)
 
 ## 🖥️ Dashboard UI
 
@@ -90,17 +95,37 @@ npm run dev
 
 Open the URL displayed by Vite in the terminal.
 
+Other scripts:
+
+```bash
+npm run build    # production build in dist/
+npm run preview  # serve the production build locally
+npm run lint     # run ESLint
+```
+
+## ☁️ Deployment
+
+The project is ready to deploy on [Vercel](https://vercel.com/) (framework preset: **Vite**, output directory: `dist`).
+
+Since the app uses client-side routing (React Router), `vercel.json` rewrites every route to `index.html`, so reloading or opening a URL like `/team` directly works instead of returning a 404.
+
 ## 📁 Project Structure
 
 The application follows a component-based React architecture:
 
 ```text
+public/
+└── assets/          # static images (user avatar)
 src/
-├── components/
-├── pages/
-├── assets/
-├── App.jsx
-└── main.jsx
+├── components/      # reusable UI: Header, StatBox, ProgressCircle and chart wrappers
+├── data/            # mock data and geo features used by tables and charts
+├── scenes/          # one folder per page (dashboard, team, contacts, invoice,
+│   │                #   form, calendar, faq, bar, pie, line, geography)
+│   └── global/      # Topbar and Sidebar
+├── theme.js         # color tokens, MUI theme and light/dark mode context
+├── App.jsx          # layout and routes
+└── main.jsx         # entry point
+vercel.json          # SPA rewrites for Vercel
 ```
 
 ## 🎯 What I Practiced

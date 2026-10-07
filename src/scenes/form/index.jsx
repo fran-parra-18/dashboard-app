@@ -28,15 +28,15 @@ const Form = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const isNonMobile = useMediaQuery("(min.width:600px)");
+    const isNonMobile = useMediaQuery("(min-width:600px)");
 
     const handleFormSubmit = (values) => {
         console.log(values);
     }
 
     return (
-        <Box m="20 px">
-            <Header titlite="create user" subtitle="create a new user profile" />
+        <Box m="20px">
+            <Header title="CREATE USER" subtitle="Create a new user profile" />
 
             <Formik
                 onSubmit={handleFormSubmit}
@@ -129,10 +129,10 @@ const Form = () => {
                                 color="secondary"
                                 variant="contained"
                                 sx={{
-                                    backgroundColor: colors.blueAccent[600], // el color que quieras
+                                    backgroundColor: colors.blueAccent[600],
                                     color: "#fff",
                                     "&:hover": {
-                                        backgroundColor: colors.blueAccent[700], // color al pasar el mouse
+                                        backgroundColor: colors.blueAccent[700],
                                     },
                                 }}
                             >
