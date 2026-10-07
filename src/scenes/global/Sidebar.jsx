@@ -28,7 +28,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       rootStyles={{
         color: colors.grey[100],
         '&.ps-active': {
-          color: colors.grey[900],              // Texto cuando está activo
+          color: colors.grey[900],             
         },
       }}
       className={selected === title ? "ps-active" : ""}
@@ -38,7 +38,6 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-// ✅ Ahora el Sidebar recibe isCollapsed y setIsCollapsed como props
 const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -48,7 +47,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     <Box
       sx={{
         height: "100vh",
-        position: "fixed", // siempre fijo
+        position: "fixed",
         top: 0,
         
         "& .ps-sidebar-root": {
@@ -102,7 +101,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  src="/assets/user.png"
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>

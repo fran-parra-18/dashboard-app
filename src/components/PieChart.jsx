@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { mockPieData as data } from "../data/mockData";
 import { ResponsivePie } from '@nivo/pie'
@@ -10,7 +10,7 @@ const PieChart = () => {
     const colors = tokens(theme.palette.mode)
 
     return (
-            <ResponsivePie /* or Pie for fixed dimensions */
+            <ResponsivePie
                 data={data}
                 theme={{
                     axis: {

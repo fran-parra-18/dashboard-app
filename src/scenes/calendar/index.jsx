@@ -21,23 +21,23 @@ const Calendar = () => {
 
         if (title) {
             calendarApi.addEvent({
-                id: `${selected.dateString}-${title}`,
+                id: `${selected.startStr}-${title}`,
                 title,
                 start: selected.startStr,
                 end: selected.endStr,
-                allDay: selected.AllDay
+                allDay: selected.allDay
             });
         };
     };
 
     const handleEventClick = (selected) => {
-        if (window.confirm(`Are you sure want to delete the event '${selected.event.title}'`)) {
+        if (window.confirm(`Are you sure you want to delete the event '${selected.event.title}'`)) {
             selected.event.remove();
         }
     }
     return (
         <Box m="20px">
-            <Header title="calendar" subtitle="Full calendar interative page" />
+            <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
 
             <Box display="flex" justifyContent="space-between">
                 <Box

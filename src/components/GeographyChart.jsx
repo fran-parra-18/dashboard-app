@@ -1,5 +1,5 @@
 import { ResponsiveChoropleth } from '@nivo/geo'
-import { Box, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { mockGeographyData as data } from "../data/mockData";
 import { geoFeatures } from "../data/mockGeoFeatures"

@@ -38,7 +38,6 @@ const Dashboard = () => {
                 gap="20px"
             >
                 {/* ROW 1 */}
-                {/* ROW 1 */}
                 <Box
                     gridColumn="span 3"
                     backgroundColor={colors.primary[400]}
@@ -202,7 +201,7 @@ const Dashboard = () => {
                     p="30px"
                 >
                     <Typography variant="h5" fontWeight="600">
-                        Campaingn
+                        Campaign
                     </Typography>
                     <Box display="flex" flexDirection="column" alignItems="center" mt="25px">
                         <ProgressCircle size="125" />
@@ -210,7 +209,7 @@ const Dashboard = () => {
                             $48,352 revenue generated
                         </Typography>
                         <Typography>
-                            Includes extra misc expenditures ands costs
+                            Includes extra misc expenditures and costs
                         </Typography>
                     </Box>
                 </Box>
@@ -239,7 +238,7 @@ const Dashboard = () => {
                         fontWeight="600"
                         sx={{ mb:"15px" }}
                     >
-                        Geography Based Trafficc
+                        Geography Based Traffic
                     </Typography>
                     <Box height="250px" mt="-20px">
                         <GeographyChart isDashboard={true} />
