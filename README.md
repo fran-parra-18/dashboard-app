@@ -17,7 +17,7 @@ The interface is fully in Spanish (Argentina): sales figures are shown in pesos 
 * 🌗 Light / dark mode that follows the system preference and is remembered between visits
 * 🧭 Collapsible sidebar on desktop and slide-in drawer on mobile, with the active section derived from the URL
 * 🚫 404 page for unknown routes
-* ⚡ Route-based code splitting with `React.lazy` and vendor chunks (no chunk over 500 kB)
+* ⚡ Route-based code splitting with `React.lazy`: each page and its libraries load only when visited
 
 ## 🛠️ Tech Stack
 
@@ -130,7 +130,7 @@ vercel.json          # SPA rewrites for Vercel
 
 * Updating deprecated MUI Data Grid APIs and completing missing Spanish translations in its locale
 * Replacing React Pro Sidebar with an MUI Drawer to get a collapsible desktop menu and a mobile drawer with the same component
-* Splitting a ~2 MB single bundle into lazy-loaded routes and cached vendor chunks
+* Splitting a ~2 MB single bundle into lazy-loaded routes (manual vendor chunks created circular imports that broke the production build, so the split is left to Vite)
 
 ## 👨‍💻 Author
 
