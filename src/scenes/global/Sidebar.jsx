@@ -1,233 +1,170 @@
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
-import { tokens } from "../../theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import { useState } from "react";
+import {
+  Avatar,
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import { NavLink, useLocation } from "react-router-dom";
+import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
+import KeyboardDoubleArrowLeftRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
+import KeyboardDoubleArrowRightRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowRightRounded";
+import { findActivePath, navSections } from "../../navigation";
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+const WIDTH = 264;
+const COLLAPSED_WIDTH = 80;
 
-  return (
-    <MenuItem
-      icon={icon}
-      component={<Link to={to} />}
-      onClick={() => setSelected(title)}
-      rootStyles={{
-        color: colors.grey[100],
-        '&.ps-active': {
-          color: colors.grey[900],             
-        },
-      }}
-      className={selected === title ? "ps-active" : ""}
-    >
-      <Typography>{title}</Typography>
-    </MenuItem>
-  );
-};
-
-const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const [selected, setSelected] = useState("Dashboard");
-
-  return (
-    <Box
+const Brand = ({ collapsed }) => (
+  <Box display="flex" alignItems="center" gap={1.5} px={collapsed ? 0 : 2.5} justifyContent={collapsed ? "center" : "flex-start"} height={72}>
+    <Avatar
+      variant="rounded"
       sx={{
-        height: "100vh",
-        position: "fixed",
-        top: 0,
-        
-        "& .ps-sidebar-root": {
-          border: "none !important",
-          height: "100%",
-        },
-        "& .ps-menuitem-root.ps-active": {
-          color: colors.redAccent[600],
-        },
-        "& .ps-menu-button:hover": {
-          backgroundColor: "transparent !important",
-          color: colors.redAccent[500],
-        },
+        width: 40,
+        height: 40,
+        borderRadius: 3,
+        color: "#fff",
+        background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
       }}
     >
-      <Sidebar collapsed={isCollapsed} backgroundColor={colors.primary[400]}>
-        <Menu
-         menuItemStyles={{
-      button: { height:"45px"}}}
-        >
-          {/* LOGO AND MENU ICON */}
-          <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "20px 0 20px 0",
-              color: colors.grey[100],
-            }}
-          >
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
-              >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
-                </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
+      <StorefrontRoundedIcon />
+    </Avatar>
+    {!collapsed && (
+      <Box>
+        <Typography variant="h5" lineHeight={1.2}>Mi Negocio</Typography>
+        <Typography variant="caption" color="text.secondary">Panel de gestión</Typography>
+      </Box>
+    )}
+  </Box>
+);
+
+const SidebarContent = ({ collapsed, onToggleCollapse, onNavigate }) => {
+  const { pathname } = useLocation();
+  const activePath = findActivePath(pathname);
+
+  return (
+    <Box display="flex" flexDirection="column" height="100%">
+      <Brand collapsed={collapsed} />
+
+      <Box component="nav" aria-label="Menú principal" flex={1} overflow="auto" pb={2}>
+        {navSections.map((section) => (
+          <Box key={section.title} mt={1.5}>
+            {collapsed ? (
+              <Divider sx={{ mx: 2, mb: 1 }} />
+            ) : (
+              <Typography variant="overline" color="text.secondary" sx={{ px: 3.5, fontSize: 11 }}>
+                {section.title}
+              </Typography>
             )}
-          </MenuItem>
-
-          {!isCollapsed && (
-            <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src="/assets/user.png"
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
-              </Box>
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  Ed Roh
-                </Typography>
-                <Typography variant="h5" color={colors.blueAccent[500]}>
-                  VP Fancy Admin
-                </Typography>
-              </Box>
-            </Box>
-          )}
-
-          <Box pl={isCollapsed ? undefined : "10%"}>
-            <Item
-              title="Dashboard"
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Data
-            </Typography>
-            <Item
-              title="Manage Team"
-              to="/team"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Contacts Information"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Invoices Balances"
-              to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Pages
-            </Typography>
-            <Item
-              title="Profile Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Calendar"
-              to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="FAQ Page"
-              to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Charts
-            </Typography>
-            <Item
-              title="Bar Chart"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Pie Chart"
-              to="/pie"
-              icon={<PieChartOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Line Chart"
-              to="/line"
-              icon={<TimelineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Geography Chart"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            <List disablePadding>
+              {section.items.map(({ title, path, icon: Icon }) => (
+                <Tooltip key={path} title={collapsed ? title : ""} placement="right">
+                  <ListItemButton
+                    component={NavLink}
+                    to={path}
+                    end
+                    selected={activePath === path}
+                    onClick={onNavigate}
+                    sx={(theme) => ({
+                      mx: 1.5,
+                      mb: 0.25,
+                      minHeight: 42,
+                      borderRadius: 2.5,
+                      px: collapsed ? 0 : 1.5,
+                      justifyContent: collapsed ? "center" : "flex-start",
+                      color: "text.secondary",
+                      "&:hover": { color: "text.primary" },
+                      "&.Mui-selected": {
+                        color: "primary.main",
+                        bgcolor: alpha(theme.palette.primary.main, 0.12),
+                        "&:hover": { bgcolor: alpha(theme.palette.primary.main, 0.18) },
+                      },
+                    })}
+                  >
+                    <ListItemIcon sx={{ minWidth: collapsed ? 0 : 38, color: "inherit" }}>
+                      <Icon fontSize="small" />
+                    </ListItemIcon>
+                    {!collapsed && (
+                      <ListItemText primary={title} slotProps={{ primary: { fontSize: 14, fontWeight: 600, noWrap: true } }} />
+                    )}
+                  </ListItemButton>
+                </Tooltip>
+              ))}
+            </List>
           </Box>
-        </Menu>
-      </Sidebar>
+        ))}
+      </Box>
+
+      <Divider />
+      <Box
+        display="flex"
+        flexDirection={collapsed ? "column" : "row"}
+        alignItems="center"
+        gap={1.5}
+        p={2}
+      >
+        <Avatar sx={{ bgcolor: "primary.main", color: "primary.contrastText", width: 38, height: 38 }}>
+          <StorefrontRoundedIcon fontSize="small" />
+        </Avatar>
+        {!collapsed && (
+          <Box flex={1} minWidth={0}>
+            <Typography variant="body2" fontWeight={700} noWrap>Mi Negocio</Typography>
+            <Typography variant="caption" color="text.secondary">Administrador</Typography>
+          </Box>
+        )}
+        {onToggleCollapse && (
+          <Tooltip title={collapsed ? "Expandir menú" : "Contraer menú"} placement="right">
+            <IconButton size="small" onClick={onToggleCollapse} aria-label={collapsed ? "Expandir menú" : "Contraer menú"}>
+              {collapsed ? <KeyboardDoubleArrowRightRoundedIcon fontSize="small" /> : <KeyboardDoubleArrowLeftRoundedIcon fontSize="small" />}
+            </IconButton>
+          </Tooltip>
+        )}
+      </Box>
     </Box>
   );
 };
 
-export default AppSidebar;
+const Sidebar = ({ collapsed, onToggleCollapse, mobileOpen, onMobileClose }) => {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const paperSx = { bgcolor: "background.paper", borderRight: 1, borderColor: "divider", backgroundImage: "none" };
+
+  if (!isDesktop) {
+    return (
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={onMobileClose}
+        ModalProps={{ keepMounted: true }}
+        slotProps={{ paper: { sx: { ...paperSx, width: WIDTH } } }}
+      >
+        <SidebarContent collapsed={false} onNavigate={onMobileClose} />
+      </Drawer>
+    );
+  }
+
+  const width = collapsed ? COLLAPSED_WIDTH : WIDTH;
+  const transition = theme.transitions.create("width", { duration: theme.transitions.duration.shorter });
+
+  return (
+    <Box component="aside" sx={{ width, flexShrink: 0, transition }}>
+      <Drawer
+        variant="permanent"
+        open
+        slotProps={{ paper: { sx: { ...paperSx, width, transition, overflowX: "hidden" } } }}
+      >
+        <SidebarContent collapsed={collapsed} onToggleCollapse={onToggleCollapse} />
+      </Drawer>
+    </Box>
+  );
+};
+
+export default Sidebar;

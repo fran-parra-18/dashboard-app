@@ -1,149 +1,129 @@
-import { Box, Button, TextField, useMediaQuery, useTheme } from "@mui/material";
+import { useState } from "react";
+import { Alert, Box, Button, Card, Grid, MenuItem, Snackbar, TextField, Typography } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
-import { tokens } from "../../theme";
-
-const phoneRegExp =
-    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+import { useClients } from "../../context/ClientsContext";
+import { provinces } from "../../data/mockData";
 
 const initialValues = {
     firstName: "",
     lastName: "",
     email: "",
-    contact: "",
+    phone: "",
     address: "",
+    city: "",
+    province: "",
+    zipCode: "",
 };
 
-const userSchema = yup.object().shape({
-    firstName: yup.string().required("required"),
-    lastName: yup.string().required("required"),
-    email: yup.string().email("invalid email").required("required"),
-    contact: yup.string().matches(phoneRegExp, "phone number is not valid").required("required"),
-    address: yup.string().required("required"),
-})
+// Acepta formatos como "+54 9 11 4523-8890", "011 4523-8890" o "(0351) 456-7890"
+const phoneHasValidDigits = (value = "") => {
+    const digits = value.replace(/\D/g, "");
+    return /^[\d\s()+-]+$/.test(value) && digits.length >= 8 && digits.length <= 15;
+};
+
+const clientSchema = yup.object().shape({
+    firstName: yup.string().trim().required("Ingresá el nombre"),
+    lastName: yup.string().trim().required("Ingresá el apellido"),
+    email: yup.string().trim().email("El email no es válido").required("Ingresá el email"),
+    phone: yup.string().required("Ingresá un teléfono").test("phone", "El teléfono no es válido", phoneHasValidDigits),
+    address: yup.string().trim().required("Ingresá la dirección"),
+    city: yup.string().trim().required("Ingresá la localidad"),
+    province: yup.string().required("Elegí una provincia"),
+    zipCode: yup.string().trim().max(8, "Máximo 8 caracteres"),
+});
+
+const fields = [
+    { name: "firstName", label: "Nombre", size: 6, autoComplete: "given-name" },
+    { name: "lastName", label: "Apellido", size: 6, autoComplete: "family-name" },
+    { name: "email", label: "Email", size: 6, type: "email", autoComplete: "email" },
+    { name: "phone", label: "Teléfono", size: 6, type: "tel", autoComplete: "tel", placeholder: "+54 9 11 1234-5678" },
+    { name: "address", label: "Dirección", size: 12, autoComplete: "street-address" },
+    { name: "city", label: "Localidad", size: 5, autoComplete: "address-level2" },
+    { name: "province", label: "Provincia", size: 4, select: true },
+    { name: "zipCode", label: "Código postal (opcional)", size: 3, autoComplete: "postal-code" },
+];
 
 const Form = () => {
+    const { addClient } = useClients();
+    const navigate = useNavigate();
+    const [savedName, setSavedName] = useState(null);
 
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-
-    const isNonMobile = useMediaQuery("(min-width:600px)");
-
-    const handleFormSubmit = (values) => {
-        console.log(values);
-    }
+    const handleFormSubmit = (values, { resetForm }) => {
+        const { firstName, lastName, ...rest } = values;
+        const name = `${firstName.trim()} ${lastName.trim()}`;
+        addClient({ name, ...rest });
+        setSavedName(name);
+        resetForm();
+    };
 
     return (
-        <Box m="20px">
-            <Header title="CREATE USER" subtitle="Create a new user profile" />
+        <Box>
+            <Header title="Nuevo cliente" subtitle="Cargá los datos para sumarlo a tu lista de clientes" />
 
-            <Formik
-                onSubmit={handleFormSubmit}
-                initialValues={initialValues}
-                validationSchema={userSchema}
+            <Card sx={{ p: { xs: 2, md: 3 }, maxWidth: 900 }}>
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={clientSchema}>
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting, resetForm }) => (
+                        <form onSubmit={handleSubmit} noValidate>
+                            <Typography variant="h6" mb={2}>Datos del cliente</Typography>
+                            <Grid container spacing={2.5}>
+                                {fields.map(({ name, label, size, select, ...inputProps }) => (
+                                    <Grid key={name} size={{ xs: 12, sm: size }}>
+                                        <TextField
+                                            fullWidth
+                                            select={select}
+                                            label={label}
+                                            name={name}
+                                            value={values[name]}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            error={!!touched[name] && !!errors[name]}
+                                            helperText={touched[name] && errors[name]}
+                                            {...inputProps}
+                                        >
+                                            {select && provinces.map((p) => (
+                                                <MenuItem key={p} value={p}>{p}</MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                            <Box display="flex" justifyContent="flex-end" gap={1.5} mt={3}>
+                                <Button onClick={() => resetForm()} color="inherit">
+                                    Limpiar
+                                </Button>
+                                <Button type="submit" variant="contained" disabled={isSubmitting}>
+                                    Guardar cliente
+                                </Button>
+                            </Box>
+                        </form>
+                    )}
+                </Formik>
+            </Card>
+
+            <Snackbar
+                open={Boolean(savedName)}
+                autoHideDuration={6000}
+                onClose={() => setSavedName(null)}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
-                {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
-                    <form onSubmit={handleSubmit}>
-                        <Box
-                            display="grid"
-                            gap="30px"
-                            gridTemplateColumns="repeat(4,minmax(0, 1fr))"
-                            sx={
-                                {
-                                    "& > div": {
-                                        gridColumn: isNonMobile ? undefined : "span 4",
-                                    }
-                                }
-                            }
-                        >
-                            <TextField
-                                fullWidth
-                                variant="filled"
-                                type="text"
-                                label="first name"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.firstName}
-                                name="firstName"
-                                error={!!touched.firstName && !!errors.firstName}
-                                helperText={touched.firstName && errors.firstName}
-                                sx={{ gridColumn: "span 2 !important" }}
-                            />
-                            <TextField
-                                fullWidth
-                                variant="filled"
-                                type="text"
-                                label="last name"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.lastName}
-                                name="lastName"
-                                error={!!touched.lastName && !!errors.lastName}
-                                helperText={touched.lastName && errors.lastName}
-                                sx={{ gridColumn: "span 2 !important" }}
-                            />
-                            <TextField
-                                fullWidth
-                                variant="filled"
-                                type="text"
-                                label="email"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.email}
-                                name="email"
-                                error={!!touched.email && !!errors.email}
-                                helperText={touched.email && errors.email}
-                                sx={{ gridColumn: "span 4" }}
-                            />
-                            <TextField
-                                fullWidth
-                                variant="filled"
-                                type="text"
-                                label="contact"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.contact}
-                                name="contact"
-                                error={!!touched.contact && !!errors.contact}
-                                helperText={touched.contact && errors.contact}
-                                sx={{ gridColumn: "span 4" }}
-                            />
-                            <TextField
-                                fullWidth
-                                variant="filled"
-                                type="text"
-                                label="address"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.address}
-                                name="address"
-                                error={!!touched.address && !!errors.address}
-                                helperText={touched.address && errors.address}
-                                sx={{ gridColumn: "span 4" }}
-                            />
-                        </Box>
-                        <Box display="flex" justifyContent="end" mt="20px">
-                            <Button
-                                type="submit"
-                                color="secondary"
-                                variant="contained"
-                                sx={{
-                                    backgroundColor: colors.blueAccent[600],
-                                    color: "#fff",
-                                    "&:hover": {
-                                        backgroundColor: colors.blueAccent[700],
-                                    },
-                                }}
-                            >
-                                Create new User
-                            </Button>
-                        </Box>
-                    </form>
-                )}
-            </Formik>
+                <Alert
+                    severity="success"
+                    variant="filled"
+                    onClose={() => setSavedName(null)}
+                    action={
+                        <Button color="inherit" size="small" onClick={() => navigate("/clientes")}>
+                            Ver clientes
+                        </Button>
+                    }
+                >
+                    {savedName} se agregó a tus clientes.
+                </Alert>
+            </Snackbar>
         </Box>
-    )
-}
+    );
+};
 
 export default Form;

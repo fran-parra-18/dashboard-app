@@ -1,1283 +1,178 @@
-import { tokens } from "../theme";
+import { toIsoDate } from "../utils/format";
 
-export const mockDataTeam = [
-  {
-    id: 1,
-    name: "Jon Snow",
-    email: "jonsnow@gmail.com",
-    age: 35,
-    phone: "(665)121-5454",
-    access: "admin",
-  },
-  {
-    id: 2,
-    name: "Cersei Lannister",
-    email: "cerseilannister@gmail.com",
-    age: 42,
-    phone: "(421)314-2288",
-    access: "manager",
-  },
-  {
-    id: 3,
-    name: "Jaime Lannister",
-    email: "jaimelannister@gmail.com",
-    age: 45,
-    phone: "(422)982-6739",
-    access: "user",
-  },
-  {
-    id: 4,
-    name: "Anya Stark",
-    email: "anyastark@gmail.com",
-    age: 16,
-    phone: "(921)425-6742",
-    access: "admin",
-  },
-  {
-    id: 5,
-    name: "Daenerys Targaryen",
-    email: "daenerystargaryen@gmail.com",
-    age: 31,
-    phone: "(421)445-1189",
-    access: "user",
-  },
-  {
-    id: 6,
-    name: "Ever Melisandre",
-    email: "evermelisandre@gmail.com",
-    age: 150,
-    phone: "(232)545-6483",
-    access: "manager",
-  },
-  {
-    id: 7,
-    name: "Ferrara Clifford",
-    email: "ferraraclifford@gmail.com",
-    age: 44,
-    phone: "(543)124-0123",
-    access: "user",
-  },
-  {
-    id: 8,
-    name: "Rossini Frances",
-    email: "rossinifrances@gmail.com",
-    age: 36,
-    phone: "(222)444-5555",
-    access: "user",
-  },
-  {
-    id: 9,
-    name: "Harvey Roxie",
-    email: "harveyroxie@gmail.com",
-    age: 65,
-    phone: "(444)555-6239",
-    access: "admin",
-  },
+// Las fechas se calculan a partir de hoy para que los datos de ejemplo nunca queden viejos
+const today = new Date();
+
+const daysFromToday = (days) => {
+  const date = new Date(today);
+  date.setDate(date.getDate() + days);
+  return toIsoDate(date);
+};
+
+const monthLabel = (monthsAgo) => {
+  const date = new Date(today.getFullYear(), today.getMonth() - monthsAgo, 1);
+  const label = date.toLocaleDateString("es-AR", { month: "short" }).replace(".", "").slice(0, 3);
+  return label.charAt(0).toUpperCase() + label.slice(1);
+};
+
+export const provinces = [
+  "Buenos Aires", "CABA", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes",
+  "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones",
+  "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe",
+  "Santiago del Estero", "Tierra del Fuego", "Tucumán",
 ];
 
-export const mockDataContacts = [
-  {
-    id: 1,
-    name: "Jon Snow",
-    email: "jonsnow@gmail.com",
-    age: 35,
-    phone: "(665)121-5454",
-    address: "0912 Won Street, Alabama, SY 10001",
-    city: "New York",
-    zipCode: "10001",
-    registrarId: 123512,
-  },
-  {
-    id: 2,
-    name: "Cersei Lannister",
-    email: "cerseilannister@gmail.com",
-    age: 42,
-    phone: "(421)314-2288",
-    address: "1234 Main Street, New York, NY 10001",
-    city: "New York",
-    zipCode: "13151",
-    registrarId: 123512,
-  },
-  {
-    id: 3,
-    name: "Jaime Lannister",
-    email: "jaimelannister@gmail.com",
-    age: 45,
-    phone: "(422)982-6739",
-    address: "3333 Want Blvd, Estanza, NAY 42125",
-    city: "New York",
-    zipCode: "87281",
-    registrarId: 4132513,
-  },
-  {
-    id: 4,
-    name: "Anya Stark",
-    email: "anyastark@gmail.com",
-    age: 16,
-    phone: "(921)425-6742",
-    address: "1514 Main Street, New York, NY 22298",
-    city: "New York",
-    zipCode: "15551",
-    registrarId: 123512,
-  },
-  {
-    id: 5,
-    name: "Daenerys Targaryen",
-    email: "daenerystargaryen@gmail.com",
-    age: 31,
-    phone: "(421)445-1189",
-    address: "11122 Welping Ave, Tenting, CD 21321",
-    city: "Tenting",
-    zipCode: "14215",
-    registrarId: 123512,
-  },
-  {
-    id: 6,
-    name: "Ever Melisandre",
-    email: "evermelisandre@gmail.com",
-    age: 150,
-    phone: "(232)545-6483",
-    address: "1234 Canvile Street, Esvazark, NY 10001",
-    city: "Esvazark",
-    zipCode: "10001",
-    registrarId: 123512,
-  },
-  {
-    id: 7,
-    name: "Ferrara Clifford",
-    email: "ferraraclifford@gmail.com",
-    age: 44,
-    phone: "(543)124-0123",
-    address: "22215 Super Street, Everting, ZO 515234",
-    city: "Evertin",
-    zipCode: "51523",
-    registrarId: 123512,
-  },
-  {
-    id: 8,
-    name: "Rossini Frances",
-    email: "rossinifrances@gmail.com",
-    age: 36,
-    phone: "(222)444-5555",
-    address: "4123 Ever Blvd, Wentington, AD 142213",
-    city: "Esteras",
-    zipCode: "44215",
-    registrarId: 512315,
-  },
-  {
-    id: 9,
-    name: "Harvey Roxie",
-    email: "harveyroxie@gmail.com",
-    age: 65,
-    phone: "(444)555-6239",
-    address: "51234 Avery Street, Cantory, ND 212412",
-    city: "Colunza",
-    zipCode: "111234",
-    registrarId: 928397,
-  },
-  {
-    id: 10,
-    name: "Enteri Redack",
-    email: "enteriredack@gmail.com",
-    age: 42,
-    phone: "(222)444-5555",
-    address: "4123 Easer Blvd, Wentington, AD 142213",
-    city: "Esteras",
-    zipCode: "44215",
-    registrarId: 533215,
-  },
-  {
-    id: 11,
-    name: "Steve Goodman",
-    email: "stevegoodmane@gmail.com",
-    age: 11,
-    phone: "(444)555-6239",
-    address: "51234 Fiveton Street, CunFory, ND 212412",
-    city: "Colunza",
-    zipCode: "1234",
-    registrarId: 92197,
-  },
+export const accessLevels = {
+  admin: { label: "Administrador", color: "primary" },
+  manager: { label: "Encargado", color: "secondary" },
+  seller: { label: "Vendedor", color: "default" },
+};
+
+export const teamMembers = [
+  { id: 1, name: "Lucía Fernández", role: "Dueña", email: "lucia@minegocio.ar", phone: "+54 9 11 4523-8890", access: "admin" },
+  { id: 2, name: "Martín Gómez", role: "Encargado de local", email: "martin@minegocio.ar", phone: "+54 9 11 3871-2245", access: "manager" },
+  { id: 3, name: "Sofía Romero", role: "Cajera", email: "sofia@minegocio.ar", phone: "+54 9 11 5560-1123", access: "seller" },
+  { id: 4, name: "Joaquín Díaz", role: "Repositor", email: "joaquin@minegocio.ar", phone: "+54 9 11 6214-7780", access: "seller" },
+  { id: 5, name: "Valentina Sosa", role: "Administración", email: "valentina@minegocio.ar", phone: "+54 9 11 4402-9931", access: "admin" },
+  { id: 6, name: "Tomás Benítez", role: "Encargado de compras", email: "tomas@minegocio.ar", phone: "+54 9 11 3398-4410", access: "manager" },
+  { id: 7, name: "Camila Herrera", role: "Vendedora", email: "camila@minegocio.ar", phone: "+54 9 11 2876-5502", access: "seller" },
+  { id: 8, name: "Nicolás Acosta", role: "Vendedor", email: "nicolas@minegocio.ar", phone: "+54 9 11 5127-3368", access: "seller" },
 ];
 
-export const mockDataInvoices = [
-  {
-    id: 1,
-    name: "Jon Snow",
-    email: "jonsnow@gmail.com",
-    cost: "21.24",
-    phone: "(665)121-5454",
-    date: "03/12/2022",
-  },
-  {
-    id: 2,
-    name: "Cersei Lannister",
-    email: "cerseilannister@gmail.com",
-    cost: "1.24",
-    phone: "(421)314-2288",
-    date: "06/15/2021",
-  },
-  {
-    id: 3,
-    name: "Jaime Lannister",
-    email: "jaimelannister@gmail.com",
-    cost: "11.24",
-    phone: "(422)982-6739",
-    date: "05/02/2022",
-  },
-  {
-    id: 4,
-    name: "Anya Stark",
-    email: "anyastark@gmail.com",
-    cost: "80.55",
-    phone: "(921)425-6742",
-    date: "03/21/2022",
-  },
-  {
-    id: 5,
-    name: "Daenerys Targaryen",
-    email: "daenerystargaryen@gmail.com",
-    cost: "1.24",
-    phone: "(421)445-1189",
-    date: "01/12/2021",
-  },
-  {
-    id: 6,
-    name: "Ever Melisandre",
-    email: "evermelisandre@gmail.com",
-    cost: "63.12",
-    phone: "(232)545-6483",
-    date: "11/02/2022",
-  },
-  {
-    id: 7,
-    name: "Ferrara Clifford",
-    email: "ferraraclifford@gmail.com",
-    cost: "52.42",
-    phone: "(543)124-0123",
-    date: "02/11/2022",
-  },
-  {
-    id: 8,
-    name: "Rossini Frances",
-    email: "rossinifrances@gmail.com",
-    cost: "21.24",
-    phone: "(222)444-5555",
-    date: "05/02/2021",
-  },
+export const initialClients = [
+  { id: 1, name: "Florencia Medina", email: "flor.medina@correo.com", phone: "+54 9 11 4789-2210", address: "Av. Corrientes 2450", city: "Balvanera", province: "CABA", zipCode: "C1046", createdAt: daysFromToday(-210) },
+  { id: 2, name: "Diego Ruiz", email: "diegoruiz@correo.com", phone: "+54 9 351 612-4478", address: "Bv. San Juan 845", city: "Córdoba", province: "Córdoba", zipCode: "X5000", createdAt: daysFromToday(-185) },
+  { id: 3, name: "Carolina Paz", email: "caro.paz@correo.com", phone: "+54 9 341 455-9012", address: "Pellegrini 1320", city: "Rosario", province: "Santa Fe", zipCode: "S2000", createdAt: daysFromToday(-160) },
+  { id: 4, name: "Federico Molina", email: "fede.molina@correo.com", phone: "+54 9 261 433-7781", address: "San Martín 1102", city: "Mendoza", province: "Mendoza", zipCode: "M5500", createdAt: daysFromToday(-132) },
+  { id: 5, name: "Agustina Castro", email: "agus.castro@correo.com", phone: "+54 9 221 590-3345", address: "Calle 7 nº 980", city: "La Plata", province: "Buenos Aires", zipCode: "B1900", createdAt: daysFromToday(-98) },
+  { id: 6, name: "Gonzalo Ortiz", email: "gonza.ortiz@correo.com", phone: "+54 9 223 488-1290", address: "Av. Colón 2789", city: "Mar del Plata", province: "Buenos Aires", zipCode: "B7600", createdAt: daysFromToday(-76) },
+  { id: 7, name: "Micaela Vera", email: "mica.vera@correo.com", phone: "+54 9 381 422-6618", address: "24 de Septiembre 560", city: "San Miguel de Tucumán", province: "Tucumán", zipCode: "T4000", createdAt: daysFromToday(-54) },
+  { id: 8, name: "Santiago Ríos", email: "santi.rios@correo.com", phone: "+54 9 299 571-0044", address: "Av. Argentina 315", city: "Neuquén", province: "Neuquén", zipCode: "Q8300", createdAt: daysFromToday(-31) },
+  { id: 9, name: "Julieta Aguirre", email: "juli.aguirre@correo.com", phone: "+54 9 387 431-8826", address: "Caseros 742", city: "Salta", province: "Salta", zipCode: "A4400", createdAt: daysFromToday(-12) },
+  { id: 10, name: "Matías Suárez", email: "mati.suarez@correo.com", phone: "+54 9 11 6033-4419", address: "Cabildo 1890", city: "Belgrano", province: "CABA", zipCode: "C1426", createdAt: daysFromToday(-3) },
 ];
 
-export const mockTransactions = [
-  {
-    txId: "01e4dsa",
-    user: "johndoe",
-    date: "2021-09-01",
-    cost: "43.95",
-  },
-  {
-    txId: "0315dsaa",
-    user: "jackdower",
-    date: "2022-04-01",
-    cost: "133.45",
-  },
-  {
-    txId: "01e4dsa",
-    user: "aberdohnny",
-    date: "2021-09-01",
-    cost: "43.95",
-  },
-  {
-    txId: "51034szv",
-    user: "goodmanave",
-    date: "2022-11-05",
-    cost: "200.95",
-  },
-  {
-    txId: "0a123sb",
-    user: "stevebower",
-    date: "2022-11-02",
-    cost: "13.55",
-  },
-  {
-    txId: "01e4dsa",
-    user: "aberdohnny",
-    date: "2021-09-01",
-    cost: "43.95",
-  },
-  {
-    txId: "120s51a",
-    user: "wootzifer",
-    date: "2019-04-15",
-    cost: "24.20",
-  },
-  {
-    txId: "0315dsaa",
-    user: "jackdower",
-    date: "2022-04-01",
-    cost: "133.45",
-  },
+export const invoiceStatuses = {
+  paid: { label: "Pagada", color: "success" },
+  pending: { label: "Pendiente", color: "warning" },
+  overdue: { label: "Vencida", color: "error" },
+};
+
+export const invoices = [
+  { id: "F-0001-00001284", name: "Florencia Medina", email: "flor.medina@correo.com", amount: 48250, date: daysFromToday(-2), status: "pending" },
+  { id: "F-0001-00001283", name: "Diego Ruiz", email: "diegoruiz@correo.com", amount: 125900, date: daysFromToday(-4), status: "paid" },
+  { id: "F-0001-00001282", name: "Carolina Paz", email: "caro.paz@correo.com", amount: 18730, date: daysFromToday(-6), status: "paid" },
+  { id: "F-0001-00001281", name: "Federico Molina", email: "fede.molina@correo.com", amount: 92400, date: daysFromToday(-9), status: "pending" },
+  { id: "F-0001-00001280", name: "Agustina Castro", email: "agus.castro@correo.com", amount: 33610, date: daysFromToday(-15), status: "paid" },
+  { id: "F-0001-00001279", name: "Gonzalo Ortiz", email: "gonza.ortiz@correo.com", amount: 71200, date: daysFromToday(-34), status: "overdue" },
+  { id: "F-0001-00001278", name: "Micaela Vera", email: "mica.vera@correo.com", amount: 15990, date: daysFromToday(-38), status: "paid" },
+  { id: "F-0001-00001277", name: "Santiago Ríos", email: "santi.rios@correo.com", amount: 56480, date: daysFromToday(-41), status: "overdue" },
+  { id: "F-0001-00001276", name: "Julieta Aguirre", email: "juli.aguirre@correo.com", amount: 24300, date: daysFromToday(-45), status: "paid" },
+  { id: "F-0001-00001275", name: "Matías Suárez", email: "mati.suarez@correo.com", amount: 109870, date: daysFromToday(-52), status: "paid" },
 ];
 
-export const mockBarData = [
-  {
-    country: "AD",
-    "hot dog": 137,
-    "hot dogColor": "hsl(229, 70%, 50%)",
-    burger: 96,
-    burgerColor: "hsl(296, 70%, 50%)",
-    kebab: 72,
-    kebabColor: "hsl(97, 70%, 50%)",
-    donut: 140,
-    donutColor: "hsl(340, 70%, 50%)",
-  },
-  {
-    country: "AE",
-    "hot dog": 55,
-    "hot dogColor": "hsl(307, 70%, 50%)",
-    burger: 28,
-    burgerColor: "hsl(111, 70%, 50%)",
-    kebab: 58,
-    kebabColor: "hsl(273, 70%, 50%)",
-    donut: 29,
-    donutColor: "hsl(275, 70%, 50%)",
-  },
-  {
-    country: "AF",
-    "hot dog": 109,
-    "hot dogColor": "hsl(72, 70%, 50%)",
-    burger: 23,
-    burgerColor: "hsl(96, 70%, 50%)",
-    kebab: 34,
-    kebabColor: "hsl(106, 70%, 50%)",
-    donut: 152,
-    donutColor: "hsl(256, 70%, 50%)",
-  },
-  {
-    country: "AG",
-    "hot dog": 133,
-    "hot dogColor": "hsl(257, 70%, 50%)",
-    burger: 52,
-    burgerColor: "hsl(326, 70%, 50%)",
-    kebab: 43,
-    kebabColor: "hsl(110, 70%, 50%)",
-    donut: 83,
-    donutColor: "hsl(9, 70%, 50%)",
-  },
-  {
-    country: "AI",
-    "hot dog": 81,
-    "hot dogColor": "hsl(190, 70%, 50%)",
-    burger: 80,
-    burgerColor: "hsl(325, 70%, 50%)",
-    kebab: 112,
-    kebabColor: "hsl(54, 70%, 50%)",
-    donut: 35,
-    donutColor: "hsl(285, 70%, 50%)",
-  },
-  {
-    country: "AL",
-    "hot dog": 66,
-    "hot dogColor": "hsl(208, 70%, 50%)",
-    burger: 111,
-    burgerColor: "hsl(334, 70%, 50%)",
-    kebab: 167,
-    kebabColor: "hsl(182, 70%, 50%)",
-    donut: 18,
-    donutColor: "hsl(76, 70%, 50%)",
-  },
-  {
-    country: "AM",
-    "hot dog": 80,
-    "hot dogColor": "hsl(87, 70%, 50%)",
-    burger: 47,
-    burgerColor: "hsl(141, 70%, 50%)",
-    kebab: 158,
-    kebabColor: "hsl(224, 70%, 50%)",
-    donut: 49,
-    donutColor: "hsl(274, 70%, 50%)",
-  },
+export const paymentMethods = {
+  cash: "Efectivo",
+  debit: "Débito",
+  credit: "Crédito",
+  qr: "QR / billetera",
+  transfer: "Transferencia",
+};
+
+export const recentSales = [
+  { id: "V-2481", client: "Florencia Medina", date: daysFromToday(0), amount: 18450, method: "qr" },
+  { id: "V-2480", client: "Consumidor final", date: daysFromToday(0), amount: 6320, method: "cash" },
+  { id: "V-2479", client: "Diego Ruiz", date: daysFromToday(-1), amount: 42900, method: "credit" },
+  { id: "V-2478", client: "Carolina Paz", date: daysFromToday(-1), amount: 11780, method: "debit" },
+  { id: "V-2477", client: "Consumidor final", date: daysFromToday(-1), amount: 3950, method: "cash" },
+  { id: "V-2476", client: "Federico Molina", date: daysFromToday(-2), amount: 27600, method: "transfer" },
+  { id: "V-2475", client: "Micaela Vera", date: daysFromToday(-2), amount: 9840, method: "qr" },
+  { id: "V-2474", client: "Agustina Castro", date: daysFromToday(-3), amount: 15210, method: "debit" },
 ];
 
-export const mockPieData = [
-  {
-    id: "hack",
-    label: "hack",
-    value: 239,
-    color: "hsl(104, 70%, 50%)",
-  },
-  {
-    id: "make",
-    label: "make",
-    value: 170,
-    color: "hsl(162, 70%, 50%)",
-  },
-  {
-    id: "go",
-    label: "go",
-    value: 322,
-    color: "hsl(291, 70%, 50%)",
-  },
-  {
-    id: "lisp",
-    label: "lisp",
-    value: 503,
-    color: "hsl(229, 70%, 50%)",
-  },
-  {
-    id: "scala",
-    label: "scala",
-    value: 584,
-    color: "hsl(344, 70%, 50%)",
-  },
+export const kpis = {
+  monthlySales: { value: 4825300, delta: 12.4 },
+  tickets: { value: 1284, delta: 8.1 },
+  newClients: { value: 86, delta: 5.3 },
+  averageTicket: { value: 3758, delta: -2.1 },
+  monthlyGoal: { target: 5500000, current: 4825300 },
+};
+
+export const salesCategories = ["Almacén", "Bebidas", "Limpieza", "Perfumería", "Kiosco"];
+
+export const unitsByCategory = [
+  [1820, 1240, 610, 430, 980],
+  [1750, 1180, 640, 410, 1020],
+  [1910, 1420, 590, 470, 1110],
+  [2040, 1610, 680, 520, 1080],
+  [1980, 1730, 720, 490, 1190],
+  [2210, 1860, 750, 560, 1250],
+].map((values, i, rows) => ({
+  month: monthLabel(rows.length - 1 - i),
+  ...Object.fromEntries(salesCategories.map((category, j) => [category, values[j]])),
+}));
+
+export const paymentMethodShare = [
+  { id: "cash", label: paymentMethods.cash, value: 28 },
+  { id: "debit", label: paymentMethods.debit, value: 24 },
+  { id: "qr", label: paymentMethods.qr, value: 22 },
+  { id: "credit", label: paymentMethods.credit, value: 19 },
+  { id: "transfer", label: paymentMethods.transfer, value: 7 },
 ];
 
-export const mockLineData = [
-  {
-    id: "japan",
-    color: tokens("dark").greenAccent[500],
-    data: [
-      {
-        x: "plane",
-        y: 101,
-      },
-      {
-        x: "helicopter",
-        y: 75,
-      },
-      {
-        x: "boat",
-        y: 36,
-      },
-      {
-        x: "train",
-        y: 216,
-      },
-      {
-        x: "subway",
-        y: 35,
-      },
-      {
-        x: "bus",
-        y: 236,
-      },
-      {
-        x: "car",
-        y: 88,
-      },
-      {
-        x: "moto",
-        y: 232,
-      },
-      {
-        x: "bicycle",
-        y: 281,
-      },
-      {
-        x: "horse",
-        y: 1,
-      },
-      {
-        x: "skateboard",
-        y: 35,
-      },
-      {
-        x: "others",
-        y: 14,
-      },
-    ],
-  },
-  {
-    id: "france",
-    color: tokens("dark").blueAccent[300],
-    data: [
-      {
-        x: "plane",
-        y: 212,
-      },
-      {
-        x: "helicopter",
-        y: 190,
-      },
-      {
-        x: "boat",
-        y: 270,
-      },
-      {
-        x: "train",
-        y: 9,
-      },
-      {
-        x: "subway",
-        y: 75,
-      },
-      {
-        x: "bus",
-        y: 175,
-      },
-      {
-        x: "car",
-        y: 33,
-      },
-      {
-        x: "moto",
-        y: 189,
-      },
-      {
-        x: "bicycle",
-        y: 97,
-      },
-      {
-        x: "horse",
-        y: 87,
-      },
-      {
-        x: "skateboard",
-        y: 299,
-      },
-      {
-        x: "others",
-        y: 251,
-      },
-    ],
-  },
-  {
-    id: "us",
-    color: tokens("dark").redAccent[200],
-    data: [
-      {
-        x: "plane",
-        y: 191,
-      },
-      {
-        x: "helicopter",
-        y: 136,
-      },
-      {
-        x: "boat",
-        y: 91,
-      },
-      {
-        x: "train",
-        y: 190,
-      },
-      {
-        x: "subway",
-        y: 211,
-      },
-      {
-        x: "bus",
-        y: 152,
-      },
-      {
-        x: "car",
-        y: 189,
-      },
-      {
-        x: "moto",
-        y: 152,
-      },
-      {
-        x: "bicycle",
-        y: 8,
-      },
-      {
-        x: "horse",
-        y: 197,
-      },
-      {
-        x: "skateboard",
-        y: 107,
-      },
-      {
-        x: "others",
-        y: 170,
-      },
-    ],
-  },
+const salesThisPeriod = [3120000, 3240000, 3380000, 3310000, 3560000, 3690000, 3820000, 3950000, 4110000, 4280000, 4300000, 4825300];
+const salesPreviousPeriod = [2380000, 2450000, 2590000, 2520000, 2710000, 2830000, 2900000, 3020000, 3150000, 3260000, 3340000, 3510000];
+
+export const monthlySales = [
+  { id: "Últimos 12 meses", data: salesThisPeriod },
+  { id: "Período anterior", data: salesPreviousPeriod },
+].map((series) => ({
+  id: series.id,
+  data: series.data.map((y, i) => ({ x: monthLabel(series.data.length - 1 - i), y })),
+}));
+
+export const countryNames = {
+  ARG: "Argentina",
+  URY: "Uruguay",
+  CHL: "Chile",
+  PRY: "Paraguay",
+  BOL: "Bolivia",
+  BRA: "Brasil",
+  PER: "Perú",
+  COL: "Colombia",
+  ECU: "Ecuador",
+  VEN: "Venezuela",
+  MEX: "México",
+  ESP: "España",
+  USA: "Estados Unidos",
+};
+
+// Pedidos de la tienda online enviados a cada país en el último año
+export const shipmentsByCountry = [
+  { id: "ARG", value: 1250 },
+  { id: "URY", value: 340 },
+  { id: "CHL", value: 290 },
+  { id: "BRA", value: 210 },
+  { id: "PRY", value: 180 },
+  { id: "ESP", value: 140 },
+  { id: "BOL", value: 120 },
+  { id: "PER", value: 95 },
+  { id: "COL", value: 80 },
+  { id: "USA", value: 75 },
+  { id: "MEX", value: 60 },
+  { id: "ECU", value: 40 },
+  { id: "VEN", value: 30 },
 ];
 
-export const mockGeographyData = [
-  {
-    id: "AFG",
-    value: 520600,
-  },
-  {
-    id: "AGO",
-    value: 949905,
-  },
-  {
-    id: "ALB",
-    value: 329910,
-  },
-  {
-    id: "ARE",
-    value: 675484,
-  },
-  {
-    id: "ARG",
-    value: 432239,
-  },
-  {
-    id: "ARM",
-    value: 288305,
-  },
-  {
-    id: "ATA",
-    value: 415648,
-  },
-  {
-    id: "ATF",
-    value: 665159,
-  },
-  {
-    id: "AUT",
-    value: 798526,
-  },
-  {
-    id: "AZE",
-    value: 481678,
-  },
-  {
-    id: "BDI",
-    value: 496457,
-  },
-  {
-    id: "BEL",
-    value: 252276,
-  },
-  {
-    id: "BEN",
-    value: 440315,
-  },
-  {
-    id: "BFA",
-    value: 343752,
-  },
-  {
-    id: "BGD",
-    value: 920203,
-  },
-  {
-    id: "BGR",
-    value: 261196,
-  },
-  {
-    id: "BHS",
-    value: 421551,
-  },
-  {
-    id: "BIH",
-    value: 974745,
-  },
-  {
-    id: "BLR",
-    value: 349288,
-  },
-  {
-    id: "BLZ",
-    value: 305983,
-  },
-  {
-    id: "BOL",
-    value: 430840,
-  },
-  {
-    id: "BRN",
-    value: 345666,
-  },
-  {
-    id: "BTN",
-    value: 649678,
-  },
-  {
-    id: "BWA",
-    value: 319392,
-  },
-  {
-    id: "CAF",
-    value: 722549,
-  },
-  {
-    id: "CAN",
-    value: 332843,
-  },
-  {
-    id: "CHE",
-    value: 122159,
-  },
-  {
-    id: "CHL",
-    value: 811736,
-  },
-  {
-    id: "CHN",
-    value: 593604,
-  },
-  {
-    id: "CIV",
-    value: 143219,
-  },
-  {
-    id: "CMR",
-    value: 630627,
-  },
-  {
-    id: "COG",
-    value: 498556,
-  },
-  {
-    id: "COL",
-    value: 660527,
-  },
-  {
-    id: "CRI",
-    value: 60262,
-  },
-  {
-    id: "CUB",
-    value: 177870,
-  },
-  {
-    id: "-99",
-    value: 463208,
-  },
-  {
-    id: "CYP",
-    value: 945909,
-  },
-  {
-    id: "CZE",
-    value: 500109,
-  },
-  {
-    id: "DEU",
-    value: 63345,
-  },
-  {
-    id: "DJI",
-    value: 634523,
-  },
-  {
-    id: "DNK",
-    value: 731068,
-  },
-  {
-    id: "DOM",
-    value: 262538,
-  },
-  {
-    id: "DZA",
-    value: 760695,
-  },
-  {
-    id: "ECU",
-    value: 301263,
-  },
-  {
-    id: "EGY",
-    value: 148475,
-  },
-  {
-    id: "ERI",
-    value: 939504,
-  },
-  {
-    id: "ESP",
-    value: 706050,
-  },
-  {
-    id: "EST",
-    value: 977015,
-  },
-  {
-    id: "ETH",
-    value: 461734,
-  },
-  {
-    id: "FIN",
-    value: 22800,
-  },
-  {
-    id: "FJI",
-    value: 18985,
-  },
-  {
-    id: "FLK",
-    value: 64986,
-  },
-  {
-    id: "FRA",
-    value: 447457,
-  },
-  {
-    id: "GAB",
-    value: 669675,
-  },
-  {
-    id: "GBR",
-    value: 757120,
-  },
-  {
-    id: "GEO",
-    value: 158702,
-  },
-  {
-    id: "GHA",
-    value: 893180,
-  },
-  {
-    id: "GIN",
-    value: 877288,
-  },
-  {
-    id: "GMB",
-    value: 724530,
-  },
-  {
-    id: "GNB",
-    value: 387753,
-  },
-  {
-    id: "GNQ",
-    value: 706118,
-  },
-  {
-    id: "GRC",
-    value: 377796,
-  },
-  {
-    id: "GTM",
-    value: 66890,
-  },
-  {
-    id: "GUY",
-    value: 719300,
-  },
-  {
-    id: "HND",
-    value: 739590,
-  },
-  {
-    id: "HRV",
-    value: 929467,
-  },
-  {
-    id: "HTI",
-    value: 538961,
-  },
-  {
-    id: "HUN",
-    value: 146095,
-  },
-  {
-    id: "IDN",
-    value: 490681,
-  },
-  {
-    id: "IND",
-    value: 549818,
-  },
-  {
-    id: "IRL",
-    value: 630163,
-  },
-  {
-    id: "IRN",
-    value: 596921,
-  },
-  {
-    id: "IRQ",
-    value: 767023,
-  },
-  {
-    id: "ISL",
-    value: 478682,
-  },
-  {
-    id: "ISR",
-    value: 963688,
-  },
-  {
-    id: "ITA",
-    value: 393089,
-  },
-  {
-    id: "JAM",
-    value: 83173,
-  },
-  {
-    id: "JOR",
-    value: 52005,
-  },
-  {
-    id: "JPN",
-    value: 199174,
-  },
-  {
-    id: "KAZ",
-    value: 181424,
-  },
-  {
-    id: "KEN",
-    value: 60946,
-  },
-  {
-    id: "KGZ",
-    value: 432478,
-  },
-  {
-    id: "KHM",
-    value: 254461,
-  },
-  {
-    id: "OSA",
-    value: 942447,
-  },
-  {
-    id: "KWT",
-    value: 414413,
-  },
-  {
-    id: "LAO",
-    value: 448339,
-  },
-  {
-    id: "LBN",
-    value: 620090,
-  },
-  {
-    id: "LBR",
-    value: 435950,
-  },
-  {
-    id: "LBY",
-    value: 75091,
-  },
-  {
-    id: "LKA",
-    value: 595124,
-  },
-  {
-    id: "LSO",
-    value: 483524,
-  },
-  {
-    id: "LTU",
-    value: 867357,
-  },
-  {
-    id: "LUX",
-    value: 689172,
-  },
-  {
-    id: "LVA",
-    value: 742980,
-  },
-  {
-    id: "MAR",
-    value: 236538,
-  },
-  {
-    id: "MDA",
-    value: 926836,
-  },
-  {
-    id: "MDG",
-    value: 840840,
-  },
-  {
-    id: "MEX",
-    value: 353910,
-  },
-  {
-    id: "MKD",
-    value: 505842,
-  },
-  {
-    id: "MLI",
-    value: 286082,
-  },
-  {
-    id: "MMR",
-    value: 915544,
-  },
-  {
-    id: "MNE",
-    value: 609500,
-  },
-  {
-    id: "MNG",
-    value: 410428,
-  },
-  {
-    id: "MOZ",
-    value: 32868,
-  },
-  {
-    id: "MRT",
-    value: 375671,
-  },
-  {
-    id: "MWI",
-    value: 591935,
-  },
-  {
-    id: "MYS",
-    value: 991644,
-  },
-  {
-    id: "NAM",
-    value: 701897,
-  },
-  {
-    id: "NCL",
-    value: 144098,
-  },
-  {
-    id: "NER",
-    value: 312944,
-  },
-  {
-    id: "NGA",
-    value: 862877,
-  },
-  {
-    id: "NIC",
-    value: 90831,
-  },
-  {
-    id: "NLD",
-    value: 281879,
-  },
-  {
-    id: "NOR",
-    value: 224537,
-  },
-  {
-    id: "NPL",
-    value: 322331,
-  },
-  {
-    id: "NZL",
-    value: 86615,
-  },
-  {
-    id: "OMN",
-    value: 707881,
-  },
-  {
-    id: "PAK",
-    value: 158577,
-  },
-  {
-    id: "PAN",
-    value: 738579,
-  },
-  {
-    id: "PER",
-    value: 248751,
-  },
-  {
-    id: "PHL",
-    value: 557292,
-  },
-  {
-    id: "PNG",
-    value: 516874,
-  },
-  {
-    id: "POL",
-    value: 682137,
-  },
-  {
-    id: "PRI",
-    value: 957399,
-  },
-  {
-    id: "PRT",
-    value: 846430,
-  },
-  {
-    id: "PRY",
-    value: 720555,
-  },
-  {
-    id: "QAT",
-    value: 478726,
-  },
-  {
-    id: "ROU",
-    value: 259318,
-  },
-  {
-    id: "RUS",
-    value: 268735,
-  },
-  {
-    id: "RWA",
-    value: 136781,
-  },
-  {
-    id: "ESH",
-    value: 151957,
-  },
-  {
-    id: "SAU",
-    value: 111821,
-  },
-  {
-    id: "SDN",
-    value: 927112,
-  },
-  {
-    id: "SDS",
-    value: 966473,
-  },
-  {
-    id: "SEN",
-    value: 158085,
-  },
-  {
-    id: "SLB",
-    value: 178389,
-  },
-  {
-    id: "SLE",
-    value: 528433,
-  },
-  {
-    id: "SLV",
-    value: 353467,
-  },
-  {
-    id: "ABV",
-    value: 251,
-  },
-  {
-    id: "SOM",
-    value: 445243,
-  },
-  {
-    id: "SRB",
-    value: 202402,
-  },
-  {
-    id: "SUR",
-    value: 972121,
-  },
-  {
-    id: "SVK",
-    value: 319923,
-  },
-  {
-    id: "SVN",
-    value: 728766,
-  },
-  {
-    id: "SWZ",
-    value: 379669,
-  },
-  {
-    id: "SYR",
-    value: 16221,
-  },
-  {
-    id: "TCD",
-    value: 101273,
-  },
-  {
-    id: "TGO",
-    value: 498411,
-  },
-  {
-    id: "THA",
-    value: 506906,
-  },
-  {
-    id: "TJK",
-    value: 613093,
-  },
-  {
-    id: "TKM",
-    value: 327016,
-  },
-  {
-    id: "TLS",
-    value: 607972,
-  },
-  {
-    id: "TTO",
-    value: 936365,
-  },
-  {
-    id: "TUN",
-    value: 898416,
-  },
-  {
-    id: "TUR",
-    value: 237783,
-  },
-  {
-    id: "TWN",
-    value: 878213,
-  },
-  {
-    id: "TZA",
-    value: 442174,
-  },
-  {
-    id: "UGA",
-    value: 720710,
-  },
-  {
-    id: "UKR",
-    value: 74172,
-  },
-  {
-    id: "URY",
-    value: 753177,
-  },
-  {
-    id: "USA",
-    value: 658725,
-  },
-  {
-    id: "UZB",
-    value: 550313,
-  },
-  {
-    id: "VEN",
-    value: 707492,
-  },
-  {
-    id: "VNM",
-    value: 538907,
-  },
-  {
-    id: "VUT",
-    value: 650646,
-  },
-  {
-    id: "PSE",
-    value: 476078,
-  },
-  {
-    id: "YEM",
-    value: 957751,
-  },
-  {
-    id: "ZAF",
-    value: 836949,
-  },
-  {
-    id: "ZMB",
-    value: 714503,
-  },
-  {
-    id: "ZWE",
-    value: 405217,
-  },
-  {
-    id: "KOR",
-    value: 171135,
-  },
+export const notifications = [
+  { id: 1, title: "Factura vencida", detail: "F-0001-00001279 · Gonzalo Ortiz", time: "Hace 2 h" },
+  { id: 2, title: "Nuevo cliente registrado", detail: "Matías Suárez se sumó a tu lista", time: "Hace 5 h" },
+  { id: 3, title: "Stock bajo", detail: "Yerba mate 1 kg · quedan 6 unidades", time: "Ayer" },
+];
+
+export const initialEvents = [
+  { id: "e1", title: "Reunión con el equipo", start: `${daysFromToday(1)}T10:00:00`, end: `${daysFromToday(1)}T11:00:00` },
+  { id: "e2", title: "Pago a proveedores", start: daysFromToday(2), allDay: true },
+  { id: "e3", title: "Inventario mensual", start: daysFromToday(6), allDay: true },
+  { id: "e4", title: "Vencimiento de impuestos", start: daysFromToday(9), allDay: true },
 ];

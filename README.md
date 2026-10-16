@@ -1,71 +1,43 @@
-# 📊 React Dashboard
+# 📊 Mi Negocio — Business Dashboard
 
-A responsive administration dashboard built with React and Material UI.
+A responsive management dashboard for small businesses, built with React and Material UI.
 
-The project focuses on creating a reusable dashboard interface for displaying, filtering and managing structured data through modern UI components.
+The interface is fully in Spanish (Argentina): sales figures are shown in pesos (ARS), dates use the local format and the sample data (clients, invoices, payment methods, provinces) reflects a local store.
 
 ## ✨ Features
 
-* 📊 Dashboard with KPI stat boxes, recent transactions and embedded charts
-* 📋 Interactive data tables (team, contacts, invoices) with toolbar, filters and quick search
-* 📈 Bar, pie, line and geography (choropleth) charts built with Nivo
-* 📅 Interactive calendar to create and delete events (FullCalendar)
-* 📝 Profile form with validation (Formik + Yup)
-* ❓ FAQ page with accordions
-* 🌗 Light / dark mode toggle
-* 🧭 Collapsible sidebar navigation
-* ⚡ Fast development environment with Vite
+* 🏠 Home overview with KPI cards, monthly sales trend, recent sales, monthly goal, units per category and payment-method breakdown
+* 📥 CSV export of recent sales, ready to open in Excel (`;` separator, UTF-8 with BOM)
+* 📋 Data tables for team, clients and invoices with toolbar, filters, quick search, export and Spanish localization
+* 🧾 Invoice summary (billed, collected, pending, overdue) and status chips
+* 📝 New-client form with validation (Formik + Yup) that adds the client to the list instantly
+* 📅 Interactive calendar in Spanish: create and delete events with dialogs; events are relative to today's date
+* 📈 Reports: sales by category (bar), payment methods (donut), sales evolution (line) and online shipments by country (choropleth + ranking)
+* 🔎 Quick section search in the top bar
+* 🌗 Light / dark mode that follows the system preference and is remembered between visits
+* 🧭 Collapsible sidebar on desktop and slide-in drawer on mobile, with the active section derived from the URL
+* 🚫 404 page for unknown routes
+* ⚡ Route-based code splitting with `React.lazy` and vendor chunks (no chunk over 500 kB)
 
 ## 🛠️ Tech Stack
 
-* React
+* React 19
 * JavaScript
-* Material UI (MUI)
-* MUI Data Grid
+* Material UI (MUI) 7
+* MUI X Data Grid
 * React Router
-* React Pro Sidebar
 * Nivo (charts)
 * FullCalendar
 * Formik + Yup
 * Vite
 * Vercel (deployment)
 
-## 🖥️ Dashboard UI
+## 🎨 Design
 
-The application combines several common administration-interface patterns:
-
-```text
-Dashboard
-│
-├── Sidebar Navigation
-│
-├── Main Content
-│   ├── Data Grid
-│   ├── Filters
-│   └── Data Views
-│
-└── Responsive Layout
-```
-
-## 📊 Data Grid
-
-The project uses Material UI Data Grid to display structured information.
-
-This provides functionality for working with tabular data while maintaining a consistent Material Design interface.
-
-The dashboard also implements filtering functionality to make larger datasets easier to explore.
-
-## 🧭 Navigation
-
-Navigation is implemented using React Pro Sidebar.
-
-The sidebar provides persistent access to the main sections of the application while adapting to different screen sizes.
-
-## 📱 Responsive Design
-
-The dashboard was designed to remain usable across different viewport sizes.
-
-The interface combines responsive layouts with reusable React components to avoid duplicating UI logic.
+* Custom MUI theme with indigo accent, rounded cards and the *Plus Jakarta Sans* typeface
+* Shared Nivo theme derived from the MUI palette, so every chart matches light and dark mode
+* HTML chart legends and custom tooltips that adapt to small screens
+* Component overrides in the theme (cards, buttons, accordions, data grid, scrollbars) instead of repeated inline styles
 
 ## 🚀 Running Locally
 
@@ -107,48 +79,58 @@ npm run lint     # run ESLint
 
 The project is ready to deploy on [Vercel](https://vercel.com/) (framework preset: **Vite**, output directory: `dist`).
 
-Since the app uses client-side routing (React Router), `vercel.json` rewrites every route to `index.html`, so reloading or opening a URL like `/team` directly works instead of returning a 404.
+Since the app uses client-side routing (React Router), `vercel.json` rewrites every route to `index.html`, so reloading or opening a URL like `/clientes` directly works instead of returning a 404.
+
+## 🗺️ Routes
+
+| Path | Page |
+| --- | --- |
+| `/` | Inicio (overview) |
+| `/equipo` | Equipo |
+| `/clientes` | Clientes |
+| `/clientes/nuevo` | Nuevo cliente |
+| `/facturas` | Facturas |
+| `/calendario` | Calendario |
+| `/ayuda` | Preguntas frecuentes |
+| `/reportes/categorias` | Ventas por categoría |
+| `/reportes/medios-de-pago` | Medios de pago |
+| `/reportes/ventas` | Evolución de ventas |
+| `/reportes/envios` | Envíos por país |
 
 ## 📁 Project Structure
 
-The application follows a component-based React architecture:
-
 ```text
-public/
-└── assets/          # static images (user avatar)
 src/
-├── components/      # reusable UI: Header, StatBox, ProgressCircle and chart wrappers
-├── data/            # mock data and geo features used by tables and charts
-├── scenes/          # one folder per page (dashboard, team, contacts, invoice,
-│   │                #   form, calendar, faq, bar, pie, line, geography)
+├── components/      # Header, cards, DataTable, ProgressCircle and chart wrappers
+│   └── charts/      # shared Nivo theme, tooltip and legend
+├── context/         # clients state shared by the form and the clients table
+├── data/            # sample data (relative to today's date) and geo features
+├── scenes/          # one folder per page
 │   └── global/      # Topbar and Sidebar
-├── theme.js         # color tokens, MUI theme and light/dark mode context
-├── App.jsx          # layout and routes
+├── utils/           # currency/date formatting and CSV export
+├── navigation.js    # menu sections, used by the sidebar and the search
+├── theme.js         # MUI theme, palette and light/dark mode
+├── App.jsx          # layout and lazy-loaded routes
 └── main.jsx         # entry point
 vercel.json          # SPA rewrites for Vercel
 ```
 
 ## 🎯 What I Practiced
 
-This project helped me practice:
-
-* React component architecture
-* Material UI
+* React component architecture and shared layout components
+* Theming Material UI (palette, typography, component overrides, localization)
 * Working with Data Grid components
-* Filtering structured data
-* Responsive dashboard layouts
-* Sidebar navigation
-* Managing third-party React libraries
-* Updating code when library APIs change
-* Organizing reusable UI components
+* Responsive dashboard layouts (permanent vs. temporary drawer, responsive grid)
+* Data visualization with Nivo
+* Form validation and shared state with React context
+* Performance: code splitting and bundle analysis
+* Adapting UI and content for a specific audience (Spanish, Argentine formats)
 
 ## 💡 Technical Challenges
 
-Part of the development involved adapting the application to changes in third-party libraries.
-
-This included updating deprecated Material UI Data Grid functionality and adapting the sidebar implementation to newer versions of React Pro Sidebar.
-
-These changes provided practical experience maintaining frontend code when dependencies evolve.
+* Updating deprecated MUI Data Grid APIs and completing missing Spanish translations in its locale
+* Replacing React Pro Sidebar with an MUI Drawer to get a collapsible desktop menu and a mobile drawer with the same component
+* Splitting a ~2 MB single bundle into lazy-loaded routes and cached vendor chunks
 
 ## 👨‍💻 Author
 

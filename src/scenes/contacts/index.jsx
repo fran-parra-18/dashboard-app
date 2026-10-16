@@ -1,117 +1,52 @@
-import { Box, useTheme } from "@mui/material";
-import { DataGrid } from '@mui/x-data-grid';
-import { tokens } from "../../theme";
-import { mockDataContacts } from "../../data/mockData";
+import { Box, Button } from "@mui/material";
+import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+import { Link } from "react-router-dom";
 import Header from "../../components/Header";
+import DataTable from "../../components/DataTable";
+import { useClients } from "../../context/ClientsContext";
+import { formatShortDate, parseDate } from "../../utils/format";
+
+const columns = [
+  { field: "id", headerName: "N.º", width: 70 },
+  { field: "name", headerName: "Nombre", flex: 1, minWidth: 170 },
+  { field: "phone", headerName: "Teléfono", flex: 1, minWidth: 170 },
+  { field: "email", headerName: "Email", flex: 1.2, minWidth: 210 },
+  { field: "address", headerName: "Dirección", flex: 1, minWidth: 180 },
+  { field: "city", headerName: "Localidad", flex: 1, minWidth: 150 },
+  { field: "province", headerName: "Provincia", flex: 0.8, minWidth: 130 },
+  { field: "zipCode", headerName: "C. P.", width: 90 },
+  {
+    field: "createdAt",
+    headerName: "Alta",
+    type: "date",
+    width: 120,
+    valueGetter: (value) => parseDate(value),
+    valueFormatter: (value) => formatShortDate(value),
+  },
+];
 
 const Contacts = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
-  const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
-    },
-    {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-  ];
+  const { clients } = useClients();
 
   return (
-    <Box m="20px">
+    <Box>
       <Header
-        title="CONTACTS"
-        subtitle="List of Contacts for Future Reference"
+        title="Clientes"
+        subtitle={`${clients.length} clientes registrados`}
+        action={
+          <Button component={Link} to="/clientes/nuevo" variant="contained" startIcon={<PersonAddAltOutlinedIcon />}>
+            Nuevo cliente
+          </Button>
+        }
       />
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeader": {
-            backgroundColor: `${colors.redAccent[600]} !important`,
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            color: colors.grey[100],
-            fontWeight: "bold",
-          },
-
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.redAccent[600],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.blueAccent[200]} !important`,
-          },
-
-          "& .MuiDataGrid-row:hover": {
-            "&:hover": {
-              backgroundColor: colors.grey[500],
-            },
-          },
-          "& .MuiDataGrid-row.Mui-selected": {
-            backgroundColor: colors.grey[600],
-          },
-          "& .MuiDataGrid-row": {
-            borderBottom: `1px solid ${colors.grey[100]}`,
-          },
-          "& .MuiDataGrid-cell:focus": {
-            outline: "none",
-          },
-          "& .MuiDataGrid-cell:focus-within": {
-            outline: "none",
-          },
+      <DataTable
+        rows={clients}
+        columns={columns}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 10 } },
+          sorting: { sortModel: [{ field: "createdAt", sort: "desc" }] },
         }}
-      >
-        <DataGrid
-          rows={mockDataContacts}
-          columns={columns}
-          showToolbar
-        />
-      </Box>
+      />
     </Box>
   );
 };

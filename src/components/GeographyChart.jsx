@@ -1,91 +1,49 @@
-import { ResponsiveChoropleth } from '@nivo/geo'
+import { ResponsiveChoropleth } from "@nivo/geo";
 import { useTheme } from "@mui/material";
-import { tokens } from "../theme";
-import { mockGeographyData as data } from "../data/mockData";
-import { geoFeatures } from "../data/mockGeoFeatures"
+import { useNivoTheme } from "./charts/useNivoTheme";
+import ChartTooltip from "./charts/ChartTooltip";
+import { countryNames, shipmentsByCountry } from "../data/mockData";
+import { geoFeatures } from "../data/mockGeoFeatures";
+import { formatNumber } from "../utils/format";
 
-const GeographyChart = ({ isDashboard = false }) => {
+const scale = ["#e0e7ff", "#c7d2fe", "#a5b4fc", "#818cf8", "#6366f1", "#4f46e5", "#4338ca"];
+
+// Mapa centrado en Sudamérica; projectionScale se ajusta al alto del contenedor
+const GeographyChart = ({ projectionScale = 320 }) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode)
+    const nivoTheme = useNivoTheme();
 
     return (
-            <ResponsiveChoropleth
-                data={data}
-                theme={{
-                    axis: {
-                        domain: {
-                            line: {
-                                stroke: colors.grey[100],
-                            },
+        <ResponsiveChoropleth
+            data={shipmentsByCountry}
+            features={geoFeatures.features}
+            theme={nivoTheme}
+            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+            colors={scale}
+            domain={[0, 400]}
+            unknownColor={theme.palette.surfaceMuted}
+            label={(feature) => countryNames[feature.id] ?? feature.properties.name}
+            valueFormat={(v) => `${formatNumber(v)} pedidos`}
+            projectionType="mercator"
+            projectionScale={projectionScale}
+            projectionTranslation={[0.5, 0.5]}
+            projectionRotation={[62, 22, 0]}
+            borderWidth={0.6}
+            borderColor={theme.palette.background.paper}
+            tooltip={({ feature }) => (
+                <ChartTooltip
+                    rows={[
+                        {
+                            color: feature.color,
+                            label: feature.label,
+                            value: feature.formattedValue ?? "Sin envíos",
                         },
-                        legend: {
-                            text: {
-                                fill: colors.grey[100],
-                            },
-                        },
-                        ticks: {
-                            line: {
-                                stroke: colors.grey[100],
-                                strokeWidth: 1,
-                            },
-                            text: {
-                                fill: colors.grey[100],
-                            },
-                        },
-                    },
-                    legends: {
-                        text: {
-                            fill: colors.grey[100],
-                        },
-                    },
-                    tooltip:{
-                        container:{
-                            color: colors.grey[500]
-                        }
-                    }
-                }}
-                features={geoFeatures.features}
-                margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                domain={[0, 1000000]}
-                unknownColor="#666666"
-                label="properties.name"
-                valueFormat=".2s"
-                projectionScale={isDashboard ? 40 : 150}
-                projectionTranslation={isDashboard ? [0.49, 0.6] : [0.5, 0.5]}
-                projectionRotation={[0, 0, 0]}
-                borderWidth={1.5}
-                borderColor="#ffffff"
-                legends={
-                    !isDashboard
-                        ? [
-                            {
-                                anchor: "bottom-left",
-                                direction: "column",
-                                justify: true,
-                                translateX: 20,
-                                translateY: -100,
-                                itemsSpacing: 0,
-                                itemWidth: 94,
-                                itemHeight: 18,
-                                itemDirection: "left-to-right",
-                                itemTextColor: colors.grey[100],
-                                itemOpacity: 0.85,
-                                symbolSize: 18,
-                                effects: [
-                                    {
-                                        on: "hover",
-                                        style: {
-                                            itemTextColor: "#ffffff",
-                                            itemOpacity: 1,
-                                        },
-                                    },
-                                ],
-                            },
-                        ]
-                        : undefined
-                }
-            />
-    )
-}
+                    ]}
+                />
+            )}
+            role="img"
+        />
+    );
+};
 
 export default GeographyChart;

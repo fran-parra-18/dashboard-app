@@ -1,134 +1,70 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
+import { Avatar, Box, Chip, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import Header from "../../components/Header";
+import DataTable from "../../components/DataTable";
+import { accessLevels, teamMembers } from "../../data/mockData";
 
-const Team = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const columns = [
-    { field: "id", headerName: "ID" },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "accessLevel",
-      headerName: "Access Level",
-      flex: 1,
-      renderCell: ({ row: { access } }) => {
-        return (
-          <Box height="100%" display="flex" alignItems="center" justifyContent="center">
-          <Box
-            width="60%"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            backgroundColor={
-              access === "admin"
-                ? colors.blueAccent[600]
-                : access === "manager"
-                  ? colors.blueAccent[700]
-                  : colors.blueAccent[700]
-            }
-            borderRadius="4px"
-          >
-            {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "manager" && <SecurityOutlinedIcon />}
-            {access === "user" && <LockOpenOutlinedIcon />}
-            <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {access}
-            </Typography>
-          </Box>
-          </Box>
-        );
-      },
-    },
-  ];
-
-  return (
-    <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            color: colors.grey[100],
-            fontWeight: "bold",
-          },
-
-          "& .MuiDataGrid-columnHeader": {
-            backgroundColor: `${colors.redAccent[600]} !important`,
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.redAccent[600],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.blueAccent[200]} !important`,
-          },
-          "& .MuiDataGrid-row:hover": {
-            "&:hover": {
-              backgroundColor: colors.grey[500],
-            },
-          },
-          "& .MuiDataGrid-row.Mui-selected": {
-            backgroundColor: colors.grey[600],
-          },
-          "& .MuiDataGrid-row": {
-            borderBottom: `1px solid ${colors.grey[100]}`,
-          },
-          "& .MuiDataGrid-cell:focus": {
-            outline: "none",
-          },
-          "& .MuiDataGrid-cell:focus-within": {
-            outline: "none",
-          },
-        }}
-      >
-        <DataGrid
-          checkboxSelection
-          rows={mockDataTeam}
-          columns={columns}
-        />
-      </Box>
-    </Box>
-  );
+const accessIcons = {
+  admin: <AdminPanelSettingsOutlinedIcon />,
+  manager: <SecurityOutlinedIcon />,
+  seller: <PersonOutlineOutlinedIcon />,
 };
+
+const columns = [
+  {
+    field: "name",
+    headerName: "Nombre",
+    flex: 1.4,
+    minWidth: 220,
+    renderCell: ({ row }) => (
+      <Box display="flex" alignItems="center" gap={1.5} height="100%">
+        <Avatar
+          sx={(theme) => ({
+            width: 34,
+            height: 34,
+            fontSize: 13,
+            fontWeight: 700,
+            bgcolor: alpha(theme.palette.primary.main, 0.12),
+            color: "primary.main",
+          })}
+        >
+          {row.name.split(" ").map((w) => w[0]).join("")}
+        </Avatar>
+        <Box minWidth={0}>
+          <Typography variant="body2" fontWeight={700} noWrap>{row.name}</Typography>
+          <Typography variant="caption" color="text.secondary" noWrap display="block">{row.role}</Typography>
+        </Box>
+      </Box>
+    ),
+  },
+  { field: "phone", headerName: "Teléfono", flex: 1, minWidth: 160 },
+  { field: "email", headerName: "Email", flex: 1.2, minWidth: 200 },
+  {
+    field: "access",
+    headerName: "Nivel de acceso",
+    flex: 1,
+    minWidth: 170,
+    valueFormatter: (value) => accessLevels[value].label,
+    renderCell: ({ value }) => (
+      <Chip
+        icon={accessIcons[value]}
+        label={accessLevels[value].label}
+        color={accessLevels[value].color}
+        variant="outlined"
+        size="small"
+      />
+    ),
+  },
+];
+
+const Team = () => (
+  <Box>
+    <Header title="Equipo" subtitle="Las personas que trabajan en tu negocio y sus permisos" />
+    <DataTable rows={teamMembers} columns={columns} />
+  </Box>
+);
 
 export default Team;
